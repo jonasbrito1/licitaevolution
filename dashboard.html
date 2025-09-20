@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LicitaEvolution - Dashboard do Sistema ERP para Licitações">
+    <title>LicitaEvolution - Dashboard</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js for graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* CSS Variables do sistema */
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --error-color: #dc2626;
+
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --border-radius: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-700);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .loading-logo i {
+            margin-right: 0.5rem;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Main Layout */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+        }
+
+        /* Status Cards */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-normal);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .status-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .status-card.error {
+            border-left-color: var(--error-color);
+        }
+
+        .status-card.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .status-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--border-radius);
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .status-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .status-badge.online {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.offline {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Main Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .main-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            background: var(--gray-50);
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+        }
+
+        .panel-title i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+        }
+
+        /* API Testing */
+        .api-controls {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .response-container {
+            background: var(--gray-900);
+            color: var(--gray-100);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        /* Editais Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .editais-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .editais-table th,
+        .editais-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .editais-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .editais-table tbody tr:hover {
+            background: var(--gray-50);
+        }
+
+        .score-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .score-high {
+            background: var(--success-color);
+        }
+
+        .score-medium {
+            background: var(--warning-color);
+        }
+
+        .score-low {
+            background: var(--error-color);
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        /* Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--border-radius);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-top: 0.25rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .api-controls {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-gavel"></i>
+                LicitaEvolution
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Carregando dashboard...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-gavel"></i>
+                <span>LicitaEvolution</span>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#editais" class="nav-link">Editais</a></li>
+                <li><a href="#analises" class="nav-link">Análises</a></li>
+                <li><a href="#relatorios" class="nav-link">Relatórios</a></li>
+            </ul>
+
+            <div class="user-menu">
+                <div class="user-avatar">A</div>
+                <span>Admin</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <div class="dashboard-header fade-in">
+            <h1 class="dashboard-title">Dashboard LicitaEvolution</h1>
+            <p class="dashboard-subtitle">Sistema ERP Completo para Gestão de Licitações Públicas</p>
+        </div>
+
+        <!-- Status Cards -->
+        <div class="status-grid">
+            <div class="status-card fade-in">
+                <div class="status-card-header">
+                    <div class="status-card-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <div class="status-card-title">Backend API</div>
+                        <span class="status-badge online" id="backend-status">Verificando...</span>
+                    </div>
+                </div>
+                <p><strong>Porta:</strong> 3001</p>
+                <p><strong>Status:</strong> <span id="backend-info">Carregando...</span></p>
+            </div>
+
+            <div class="status-card fade-in">
+                <div class="status-card-header">
+                    <div class="status-card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                        <div class="status-card-title">PostgreSQL</div>
+                        <span class="status-badge online">Online</span>
+                    </div>
+                </div>
+                <p><strong>Porta:</strong> 5432</p>
+                <p><strong>Tabelas:</strong> 23 criadas</p>
+            </div>
+
+            <div class="status-card fade-in">
+                <div class="status-card-header">
+                    <div class="status-card-icon">
+                        <i class="fas fa-memory"></i>
+                    </div>
+                    <div>
+                        <div class="status-card-title">Redis Cache</div>
+                        <span class="status-badge online">Online</span>
+                    </div>
+                </div>
+                <p><strong>Porta:</strong> 6379</p>
+                <p><strong>Status:</strong> Cache ativo</p>
+            </div>
+
+            <div class="status-card fade-in">
+                <div class="status-card-header">
+                    <div class="status-card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <div class="status-card-title">Claude IA</div>
+                        <span class="status-badge online">Pronto</span>
+                    </div>
+                </div>
+                <p><strong>Modelo:</strong> Claude-3</p>
+                <p><strong>Status:</strong> Análises ativas</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-grid">
+            <!-- Left Panel - API Testing -->
+            <div class="main-panel fade-in">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-vial"></i>
+                        Teste de APIs
+                    </h2>
+                </div>
+                <div class="panel-content">
+                    <div class="api-controls">
+                        <button class="btn btn-primary" onclick="testAPI('/health')">
+                            <i class="fas fa-heartbeat"></i> Health Check
+                        </button>
+                        <button class="btn btn-primary" onclick="testAPI('/api/health')">
+                            <i class="fas fa-cog"></i> API Status
+                        </button>
+                        <button class="btn btn-primary" onclick="testAPI('/api/editais')">
+                            <i class="fas fa-list"></i> Listar Editais
+                        </button>
+                        <button class="btn btn-primary" onclick="testClaudeAPI()">
+                            <i class="fas fa-robot"></i> Teste Claude IA
+                        </button>
+                    </div>
+                    <div id="api-response" class="response-container"></div>
+
+                    <!-- Editais Table -->
+                    <div class="table-container">
+                        <table class="editais-table">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Órgão</th>
+                                    <th>Objeto</th>
+                                    <th>Valor</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="editais-tbody">
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">
+                                        <i class="fas fa-spinner fa-spin"></i> Carregando editais...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Statistics -->
+            <div class="main-panel fade-in">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <i class="fas fa-chart-bar"></i>
+                        Estatísticas
+                    </h2>
+                </div>
+                <div class="panel-content">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-editais">0</div>
+                            <div class="stat-label">Editais Cadastrados</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="editais-ativos">0</div>
+                            <div class="stat-label">Editais Ativos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="score-medio">0</div>
+                            <div class="stat-label">Score Médio</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="analises-ia">0</div>
+                            <div class="stat-label">Análises IA</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="scoresChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables
+        let editaisData = [];
+        let chart = null;
+
+        // Initialize dashboard
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            initializeDashboard();
+        });
+
+        async function initializeDashboard() {
+            await checkBackendStatus();
+            await loadEditais();
+            updateStatistics();
+            createChart();
+        }
+
+        async function checkBackendStatus() {
+            try {
+                const response = await fetch('http://localhost:3001/health');
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('backend-status').textContent = 'Online';
+                    document.getElementById('backend-status').className = 'status-badge online';
+                    document.getElementById('backend-info').textContent = `v${data.version} - ${new Date(data.timestamp).toLocaleTimeString()}`;
+                }
+            } catch (error) {
+                document.getElementById('backend-status').textContent = 'Offline';
+                document.getElementById('backend-status').className = 'status-badge offline';
+                document.getElementById('backend-info').textContent = 'Erro de conexão';
+            }
+        }
+
+        async function loadEditais() {
+            try {
+                const response = await fetch('http://localhost:3001/api/editais');
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    editaisData = data.data;
+                    renderEditaisTable(editaisData);
+                }
+            } catch (error) {
+                document.getElementById('editais-tbody').innerHTML = `
+                    <tr><td colspan="5" style="text-align: center; color: var(--error-color);">
+                        <i class="fas fa-exclamation-triangle"></i> Erro ao carregar editais
+                    </td></tr>
+                `;
+            }
+        }
+
+        function renderEditaisTable(editais) {
+            const tbody = document.getElementById('editais-tbody');
+
+            if (editais.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="5" style="text-align: center;">
+                        <i class="fas fa-inbox"></i> Nenhum edital encontrado
+                    </td></tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = editais.map(edital => `
+                <tr>
+                    <td><strong>${edital.numero}</strong></td>
+                    <td>${edital.orgao}</td>
+                    <td>${edital.objeto}</td>
+                    <td>R$ ${edital.valor.toLocaleString('pt-BR')}</td>
+                    <td>
+                        <span class="score-badge ${getScoreClass(edital.score)}">
+                            ${edital.score}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getScoreClass(score) {
+            if (score >= 80) return 'score-high';
+            if (score >= 60) return 'score-medium';
+            return 'score-low';
+        }
+
+        function updateStatistics() {
+            const totalEditais = editaisData.length;
+            const editaisAtivos = editaisData.filter(e => e.status !== 'encerrado').length;
+            const scoreMedio = totalEditais > 0 ? Math.round(editaisData.reduce((sum, e) => sum + e.score, 0) / totalEditais) : 0;
+
+            document.getElementById('total-editais').textContent = totalEditais;
+            document.getElementById('editais-ativos').textContent = editaisAtivos;
+            document.getElementById('score-medio').textContent = scoreMedio;
+            document.getElementById('analises-ia').textContent = totalEditais; // Mock
+        }
+
+        function createChart() {
+            const ctx = document.getElementById('scoresChart').getContext('2d');
+
+            const scores = editaisData.map(e => e.score);
+            const labels = editaisData.map(e => e.numero);
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Score de Viabilidade',
+                        data: scores,
+                        backgroundColor: scores.map(score => {
+                            if (score >= 80) return '#059669';
+                            if (score >= 60) return '#d97706';
+                            return '#dc2626';
+                        }),
+                        borderColor: '#374151',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function testAPI(endpoint, method = 'GET', body = null) {
+            const responseDiv = document.getElementById('api-response');
+            responseDiv.style.display = 'block';
+            responseDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testando API...';
+
+            try {
+                const options = {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' }
+                };
+
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(`http://localhost:3001${endpoint}`, options);
+                const data = await response.json();
+
+                responseDiv.innerHTML = `
+                    <div style="color: #10b981; margin-bottom: 0.5rem;">
+                        <i class="fas fa-check-circle"></i> ${method} ${endpoint} - ${response.status}
+                    </div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                responseDiv.innerHTML = `
+                    <div style="color: #ef4444; margin-bottom: 0.5rem;">
+                        <i class="fas fa-times-circle"></i> Erro na requisição
+                    </div>
+                    <pre>${error.message}</pre>
+                `;
+            }
+        }
+
+        async function testClaudeAPI() {
+            await testAPI('/api/claude/analisar-texto', 'POST', {
+                texto: 'Edital de teste para análise de viabilidade com inteligência artificial'
+            });
+        }
+
+        // Auto-refresh data every 30 seconds
+        setInterval(() => {
+            checkBackendStatus();
+        }, 30000);
+    </script>
+</body>
+</html>

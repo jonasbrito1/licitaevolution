@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LicitaEvolution - Dashboard do Sistema ERP para Licitações">
+    <title>LicitaEvolution - Dashboard</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js for graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* CSS Variables do sistema */
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --error-color: #dc2626;
+
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --border-radius: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset e base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Container principal */
+        .dashboard-container {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        /* Header do dashboard */
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+        }
+
+        /* Grid de cards de estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--error-color);
+        }
+
+        /* Grid de gráficos */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-btn {
+            background: var(--gray-100);
+            border: none;
+            color: var(--gray-600);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+
+        .chart-btn:hover {
+            background: var(--gray-200);
+            color: var(--gray-900);
+        }
+
+        /* Tabela de atividades recentes */
+        .activities-section {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .view-all-btn {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition-normal);
+        }
+
+        .view-all-btn:hover {
+            color: var(--primary-dark);
+        }
+
+        .activities-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .activities-table th {
+            text-align: left;
+            padding: 0.75rem 0;
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .activities-table td {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: middle;
+        }
+
+        .activity-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-ativo {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-analise {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-finalizado {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--gray-600);
+        }
+
+        .activity-value {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .dashboard-title {
+                font-size: 1.5rem;
+            }
+
+            .activities-table {
+                font-size: 0.85rem;
+            }
+
+            .activities-table th,
+            .activities-table td {
+                padding: 0.5rem 0;
+            }
+        }
+
+        /* Cores dos ícones */
+        .icon-blue { background: var(--primary-color); }
+        .icon-purple { background: var(--secondary-color); }
+        .icon-yellow { background: var(--accent-color); }
+        .icon-green { background: var(--success-color); }
+    </style>
+
+    <!-- Incluir CSS dos componentes -->
+    <script src="assets/components.js"></script>
+    <style id="components-css"></style>
+</head>
+<body>
+    <!-- Header do Sistema -->
+    <div id="header-container"></div>
+
+    <!-- Conteúdo Principal -->
+    <main class="dashboard-container">
+        <!-- Header do Dashboard -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <p class="dashboard-subtitle">Visão geral do seu sistema de licitações</p>
+        </div>
+
+        <!-- Grid de Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Total de Editais</span>
+                    <div class="stat-icon icon-blue">📋</div>
+                </div>
+                <div class="stat-value" id="total-editais">-</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>12% vs mês anterior</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Editais Ativos</span>
+                    <div class="stat-icon icon-green">✅</div>
+                </div>
+                <div class="stat-value" id="editais-ativos">-</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>8% vs mês anterior</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Valor Total</span>
+                    <div class="stat-icon icon-yellow">💰</div>
+                </div>
+                <div class="stat-value" id="valor-total">-</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>15% vs mês anterior</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Score Médio</span>
+                    <div class="stat-icon icon-purple">📊</div>
+                </div>
+                <div class="stat-value" id="score-medio">-</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>5% vs mês anterior</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de Gráficos -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Evolução dos Editais</h3>
+                    <div class="chart-actions">
+                        <button class="chart-btn" onclick="refreshChart('editais')">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="chart-btn" onclick="exportChart('editais')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <canvas id="chartEditais" width="400" height="200"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Distribuição por Status</h3>
+                    <div class="chart-actions">
+                        <button class="chart-btn" onclick="refreshChart('status')">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <canvas id="chartStatus" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Atividades Recentes -->
+        <div class="activities-section">
+            <div class="section-header">
+                <h3 class="section-title">Editais Recentes</h3>
+                <a href="/editais.html" class="view-all-btn">Ver todos →</a>
+            </div>
+
+            <table class="activities-table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Órgão</th>
+                        <th>Objeto</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="editais-recentes">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                            <i class="fas fa-spinner fa-spin"></i> Carregando editais...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Footer do Sistema -->
+    <div id="footer-container"></div>
+
+    <!-- Chat Flutuante Claude AI -->
+    <div id="chat-container-widget"></div>
+
+    <script>
+        // Aplicar CSS dos componentes
+        document.getElementById('components-css').textContent = getComponentsCSS();
+
+        // Variáveis globais para os gráficos
+        let chartEditais = null;
+        let chartStatus = null;
+
+        // Inicializar dashboard
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadDashboardData();
+            initializeCharts();
+        });
+
+        // Carregar dados do dashboard
+        async function loadDashboardData() {
+            try {
+                // Carregar editais
+                const response = await fetch('/api/editais');
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    const editais = data.data;
+
+                    // Atualizar estatísticas
+                    updateStatistics(editais);
+
+                    // Atualizar tabela de editais recentes
+                    updateRecentEditais(editais);
+
+                    // Atualizar dados dos gráficos
+                    updateChartData(editais);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                showErrorMessage();
+            }
+        }
+
+        // Atualizar estatísticas
+        function updateStatistics(editais) {
+            const totalEditais = editais.length;
+            const editaisAtivos = editais.filter(e => e.status === 'ativo').length;
+            const valorTotal = editais.reduce((sum, e) => sum + (e.valor || 0), 0);
+            const scoreMedio = editais.reduce((sum, e) => sum + (e.score || 0), 0) / totalEditais;
+
+            document.getElementById('total-editais').textContent = totalEditais;
+            document.getElementById('editais-ativos').textContent = editaisAtivos;
+            document.getElementById('valor-total').textContent = formatCurrency(valorTotal);
+            document.getElementById('score-medio').textContent = Math.round(scoreMedio) + '%';
+        }
+
+        // Atualizar tabela de editais recentes
+        function updateRecentEditais(editais) {
+            const tbody = document.getElementById('editais-recentes');
+
+            tbody.innerHTML = editais.map(edital => `
+                <tr>
+                    <td><strong>${edital.numero}</strong></td>
+                    <td>${edital.orgao}</td>
+                    <td>${truncateText(edital.objeto, 40)}</td>
+                    <td class="activity-value">${formatCurrency(edital.valor)}</td>
+                    <td>
+                        <span class="activity-status status-${edital.status}">
+                            ${getStatusLabel(edital.status)}
+                        </span>
+                    </td>
+                    <td><strong>${edital.score}%</strong></td>
+                </tr>
+            `).join('');
+        }
+
+        // Inicializar gráficos
+        function initializeCharts() {
+            // Gráfico de evolução dos editais
+            const ctxEditais = document.getElementById('chartEditais').getContext('2d');
+            chartEditais = new Chart(ctxEditais, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                    datasets: [{
+                        label: 'Editais Publicados',
+                        data: [12, 19, 8, 15, 22, 18],
+                        borderColor: 'rgb(37, 99, 235)',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de distribuição por status
+            const ctxStatus = document.getElementById('chartStatus').getContext('2d');
+            chartStatus = new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ativo', 'Em Análise', 'Finalizado'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: [
+                            'rgb(5, 150, 105)',
+                            'rgb(245, 158, 11)',
+                            'rgb(107, 114, 128)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Atualizar dados dos gráficos
+        function updateChartData(editais) {
+            // Aqui você pode implementar lógica mais complexa
+            // para processar os dados dos editais e atualizar os gráficos
+        }
+
+        // Funções auxiliares
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(value);
+        }
+
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'ativo': 'Ativo',
+                'analise': 'Em Análise',
+                'finalizado': 'Finalizado'
+            };
+            return labels[status] || status;
+        }
+
+        function showErrorMessage() {
+            document.getElementById('editais-recentes').innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--error-color);">
+                        <i class="fas fa-exclamation-triangle"></i> Erro ao carregar dados
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Funções dos botões dos gráficos
+        function refreshChart(type) {
+            console.log('Atualizando gráfico:', type);
+            loadDashboardData();
+        }
+
+        function exportChart(type) {
+            console.log('Exportando gráfico:', type);
+            if (type === 'editais' && chartEditais) {
+                const link = document.createElement('a');
+                link.download = 'evolucao-editais.png';
+                link.href = chartEditais.toBase64Image();
+                link.click();
+            }
+        }
+    </script>
+</body>
+</html>

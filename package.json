@@ -1,0 +1,137 @@
+{
+  "name": "licitaevolution-backend",
+  "version": "1.0.0",
+  "description": "Sistema ERP completo para gestão de licitações públicas com IA especializada",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "db:init": "node backend/utils/initDatabase.js",
+    "db:init:force": "node backend/utils/initDatabase.js --force",
+    "db:seed": "node backend/utils/initDatabase.js --seed",
+    "db:setup": "node backend/utils/initDatabase.js --force --seed",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint backend/ --ext .js",
+    "lint:fix": "eslint backend/ --ext .js --fix",
+    "format": "prettier --write backend/**/*.js",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "backup:db": "node backend/utils/backup.js",
+    "restore:db": "node backend/utils/restore.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.9",
+    "archiver": "^6.0.1",
+    "aws-sdk": "^2.1509.0",
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "bull": "^4.12.2",
+    "cheerio": "^1.0.0-rc.12",
+    "compression": "^1.7.4",
+    "connect-redis": "^7.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.3",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.2.1",
+    "fs-extra": "^11.1.1",
+    "helmet": "^7.1.0",
+    "hpp": "^0.2.3",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mime-types": "^2.1.35",
+    "moment": "^2.29.4",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.15.0",
+    "node-cron": "^3.0.3",
+    "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.7",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "pdf-parse": "^1.1.1",
+    "pdfkit": "^0.14.0",
+    "puppeteer": "^21.6.1",
+    "qrcode": "^1.5.3",
+    "redis": "^4.6.11",
+    "sequelize": "^6.35.0",
+    "sharp": "^0.32.6",
+    "socket.io": "^4.7.4",
+    "speakeasy": "^2.0.0",
+    "stripe": "^14.9.0",
+    "twilio": "^4.19.3",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1",
+    "xlsx": "^0.18.5",
+    "xss": "^1.0.14"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/licitaevolution/backend.git"
+  },
+  "keywords": [
+    "ERP",
+    "licitações",
+    "públicas",
+    "IA",
+    "Claude",
+    "gestão",
+    "financeiro",
+    "compras",
+    "orçamentos"
+  ],
+  "author": "LicitaEvolution Team <dev@licitaevolution.com.br>",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "backend/**/*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "backend/**/*.js",
+      "!backend/node_modules/**",
+      "!backend/coverage/**"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.js",
+      "**/__tests__/**/*.js"
+    ]
+  }
+}

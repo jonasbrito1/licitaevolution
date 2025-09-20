@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LicitaEvolution - Sistema ERP completo para gestão de licitações públicas com IA especializada">
+    <meta name="keywords" content="licitações, ERP, gestão, análise de editais, IA, Claude, propostas">
+    <title>LicitaEvolution - Sistema ERP para Licitações Públicas</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-gavel"></i>
+                <span>LicitaEvolution</span>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Carregando o futuro das licitações...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-gavel"></i>
+                <span class="logo-text">LicitaEvolution</span>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#inicio" class="nav-link">Início</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#funcionalidades" class="nav-link">Funcionalidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#diferenciais" class="nav-link">Diferenciais</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#precos" class="nav-link">Preços</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contato" class="nav-link">Contato</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#demo" class="nav-link btn-demo">Demonstração</a>
+                </li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-bg">
+            <div class="hero-particles"></div>
+        </div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text" data-aos="fade-up">
+                    <h1 class="hero-title">
+                        O <span class="gradient-text">Futuro</span> da Gestão de
+                        <span class="gradient-text">Licitações Públicas</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Sistema ERP completo com IA especializada do Claude para análise de editais,
+                        gestão financeira e maximização de resultados em licitações.
+                    </p>
+
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Precisão na Análise</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">70%</span>
+                            <span class="stat-label">Redução de Tempo</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">40%</span>
+                            <span class="stat-label">Mais Vitórias</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="#demo" class="btn btn-primary">
+                            <i class="fas fa-play"></i>
+                            Demonstração Gratuita
+                        </a>
+                        <a href="#funcionalidades" class="btn btn-secondary">
+                            <i class="fas fa-info-circle"></i>
+                            Conhecer Sistema
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+                    <div class="dashboard-preview">
+                        <div class="preview-header">
+                            <div class="preview-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div class="preview-title">LicitaEvolution Dashboard</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-sidebar">
+                                <div class="sidebar-item active">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Dashboard
+                                </div>
+                                <div class="sidebar-item">
+                                    <i class="fas fa-file-contract"></i>
+                                    Editais
+                                </div>
+                                <div class="sidebar-item">
+                                    <i class="fas fa-robot"></i>
+                                    IA Claude
+                                </div>
+                                <div class="sidebar-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    Financeiro
+                                </div>
+                            </div>
+                            <div class="preview-main">
+                                <div class="preview-card">
+                                    <h4>Análise em Tempo Real</h4>
+                                    <div class="preview-chart">
+                                        <div class="chart-bar" style="height: 60%"></div>
+                                        <div class="chart-bar" style="height: 80%"></div>
+                                        <div class="chart-bar" style="height: 95%"></div>
+                                        <div class="chart-bar" style="height: 70%"></div>
+                                    </div>
+                                </div>
+                                <div class="preview-notifications">
+                                    <div class="notification success">
+                                        <i class="fas fa-check-circle"></i>
+                                        Edital analisado com sucesso
+                                    </div>
+                                    <div class="notification info">
+                                        <i class="fas fa-robot"></i>
+                                        Claude identificou 3 oportunidades
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <span>Role para descobrir</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="funcionalidades" class="features">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Funcionalidades Completas</h2>
+                <p>Tudo que você precisa para dominar o mercado de licitações públicas</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1: IA Analysis -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Análise com IA Claude</h3>
+                        <p>Especialista em licitações brasileiras que analisa editais com precisão jurídica e identifica oportunidades ocultas.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>Análise automática de PDFs</li>
+                            <li><i class="fas fa-check"></i>Cálculo de viabilidade</li>
+                            <li><i class="fas fa-check"></i>Identificação de riscos</li>
+                            <li><i class="fas fa-check"></i>Sugestões de impugnação</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Financial Management -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Gestão Financeira</h3>
+                        <p>Controle completo das finanças com fluxo de caixa, centro de custos e relatórios gerenciais em tempo real.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>Contas a pagar/receber</li>
+                            <li><i class="fas fa-check"></i>Fluxo de caixa</li>
+                            <li><i class="fas fa-check"></i>Análise de margem</li>
+                            <li><i class="fas fa-check"></i>Relatórios fiscais</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Procurement -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Compras Inteligentes</h3>
+                        <p>Gestão de fornecedores, cotações automáticas e controle de estoque integrado ao seu planejamento.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>Cadastro de fornecedores</li>
+                            <li><i class="fas fa-check"></i>Cotações automáticas</li>
+                            <li><i class="fas fa-check"></i>Controle de estoque</li>
+                            <li><i class="fas fa-check"></i>Histórico de preços</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Proposals -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Orçamentos & Propostas</h3>
+                        <p>Geração automática de propostas competitivas com cálculos precisos e templates personalizáveis.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>Templates profissionais</li>
+                            <li><i class="fas fa-check"></i>Cálculo automático</li>
+                            <li><i class="fas fa-check"></i>Versionamento</li>
+                            <li><i class="fas fa-check"></i>Assinatura digital</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 5: Analytics -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i class="fas fa-analytics"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Analytics Avançado</h3>
+                        <p>Dashboards inteligentes com KPIs personalizados e insights acionáveis para otimizar resultados.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>KPIs em tempo real</li>
+                            <li><i class="fas fa-check"></i>Relatórios customizados</li>
+                            <li><i class="fas fa-check"></i>Análise de performance</li>
+                            <li><i class="fas fa-check"></i>Benchmarking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feature 6: Automation -->
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Automação Total</h3>
+                        <p>Workflows automatizados que eliminam tarefas manuais e garantem que nada seja esquecido.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check"></i>Alertas automáticos</li>
+                            <li><i class="fas fa-check"></i>Workflows personalizados</li>
+                            <li><i class="fas fa-check"></i>Notificações inteligentes</li>
+                            <li><i class="fas fa-check"></i>Integração com APIs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Claude AI Section -->
+    <section id="diferenciais" class="claude-section">
+        <div class="container">
+            <div class="claude-content">
+                <div class="claude-text" data-aos="fade-right">
+                    <div class="section-badge">
+                        <i class="fas fa-star"></i>
+                        Diferencial Exclusivo
+                    </div>
+                    <h2>Claude: Seu Especialista Digital em Licitações</h2>
+                    <p class="claude-description">
+                        Primeira e única plataforma no Brasil com IA especializada em licitações públicas.
+                        Claude analisa seus editais com a expertise de um consultor sênior, 24 horas por dia.
+                    </p>
+
+                    <div class="claude-features">
+                        <div class="claude-feature">
+                            <div class="claude-feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="claude-feature-text">
+                                <h4>Análise Jurídica Completa</h4>
+                                <p>Conhece Lei 14.133/2021, 8.666/1993 e toda jurisprudência do TCU</p>
+                            </div>
+                        </div>
+
+                        <div class="claude-feature">
+                            <div class="claude-feature-icon">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <div class="claude-feature-text">
+                                <h4>Geração de Impugnações</h4>
+                                <p>Elabora peças jurídicas profissionais com fundamentação sólida</p>
+                            </div>
+                        </div>
+
+                        <div class="claude-feature">
+                            <div class="claude-feature-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="claude-feature-text">
+                                <h4>Precificação Estratégica</h4>
+                                <p>Calcula preços competitivos baseado no histórico do órgão</p>
+                            </div>
+                        </div>
+
+                        <div class="claude-feature">
+                            <div class="claude-feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="claude-feature-text">
+                                <h4>Identificação de Riscos</h4>
+                                <p>Detecta 95% dos riscos jurídicos e operacionais automaticamente</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-roi">
+                        <h3>ROI Comprovado</h3>
+                        <div class="roi-stats">
+                            <div class="roi-stat">
+                                <span class="roi-number">R$ 264k</span>
+                                <span class="roi-label">Economia anual</span>
+                            </div>
+                            <div class="roi-stat">
+                                <span class="roi-number">40%</span>
+                                <span class="roi-label">Mais vitórias</span>
+                            </div>
+                            <div class="roi-stat">
+                                <span class="roi-number">70%</span>
+                                <span class="roi-label">Menos tempo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="claude-visual" data-aos="fade-left">
+                    <div class="claude-demo">
+                        <div class="claude-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="claude-messages">
+                            <div class="message claude-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Analisando edital de Pregão nº 15/2024...</p>
+                                    <div class="message-progress">
+                                        <div class="progress-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="message claude-message" style="animation-delay: 2s;">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p><strong>Análise concluída!</strong></p>
+                                    <div class="analysis-result">
+                                        <div class="result-item">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                            <span>Score: 87/100 - Recomendo participar</span>
+                                        </div>
+                                        <div class="result-item">
+                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            <span>2 cláusulas restritivas identificadas</span>
+                                        </div>
+                                        <div class="result-item">
+                                            <i class="fas fa-dollar-sign text-info"></i>
+                                            <span>Margem sugerida: 18-22%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="message user-message" style="animation-delay: 4s;">
+                                <div class="message-content">
+                                    <p>Pode gerar a impugnação para as cláusulas restritivas?</p>
+                                </div>
+                                <div class="message-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+
+                            <div class="message claude-message" style="animation-delay: 6s;">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Claro! Gerando peça de impugnação com fundamentação na Lei 14.133/2021...</p>
+                                    <div class="typing-indicator">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Por que Escolher o LicitaEvolution?</h2>
+                <p>Vantagens competitivas que fazem a diferença</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="benefit-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Resultados Imediatos</h3>
+                    <p>Implantação em 24h com resultados visíveis desde a primeira semana de uso.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Máxima Segurança</h3>
+                    <p>Dados protegidos com criptografia militar e conformidade total com LGPD.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Suporte Especializado</h3>
+                    <p>Equipe de especialistas em licitações disponível 24/7 para ajudar.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="benefit-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Atualizações Automáticas</h3>
+                    <p>Sistema sempre atualizado com as últimas mudanças na legislação.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="benefit-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Acesso Universal</h3>
+                    <p>Funciona perfeitamente em qualquer dispositivo, anywhere, anytime.</p>
+                </div>
+
+                <div class="benefit-card" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="benefit-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Escalabilidade Infinita</h3>
+                    <p>Cresce junto com sua empresa, de PME a grande corporação.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precos" class="pricing">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Planos que Cabem no Seu Orçamento</h2>
+                <p>Comece grátis e escale conforme sua necessidade</p>
+            </div>
+
+            <div class="pricing-toggle" data-aos="fade-up" data-aos-delay="100">
+                <span class="toggle-label">Mensal</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="pricing-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="toggle-label">Anual <span class="discount">-20%</span></span>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-header">
+                        <h3>Starter</h3>
+                        <p>Para empresas iniciantes</p>
+                        <div class="pricing-price">
+                            <span class="currency">R$</span>
+                            <span class="amount monthly">497</span>
+                            <span class="amount yearly">398</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i>Até 10 editais/mês</li>
+                            <li><i class="fas fa-check"></i>Análise básica com IA</li>
+                            <li><i class="fas fa-check"></i>Gestão financeira</li>
+                            <li><i class="fas fa-check"></i>3 usuários</li>
+                            <li><i class="fas fa-check"></i>Suporte por email</li>
+                            <li><i class="fas fa-times"></i>Análise avançada</li>
+                            <li><i class="fas fa-times"></i>API integrations</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-outline">Começar Grátis</button>
+                </div>
+
+                <!-- Professional Plan -->
+                <div class="pricing-card popular" data-aos="fade-up" data-aos-delay="300">
+                    <div class="popular-badge">Mais Popular</div>
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <p>Para empresas em crescimento</p>
+                        <div class="pricing-price">
+                            <span class="currency">R$</span>
+                            <span class="amount monthly">997</span>
+                            <span class="amount yearly">798</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i>Editais ilimitados</li>
+                            <li><i class="fas fa-check"></i>IA Claude completa</li>
+                            <li><i class="fas fa-check"></i>Geração de impugnações</li>
+                            <li><i class="fas fa-check"></i>10 usuários</li>
+                            <li><i class="fas fa-check"></i>Suporte prioritário</li>
+                            <li><i class="fas fa-check"></i>Relatórios avançados</li>
+                            <li><i class="fas fa-check"></i>Integrações básicas</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary">Testar 14 Dias Grátis</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <p>Para grandes organizações</p>
+                        <div class="pricing-price">
+                            <span class="currency">R$</span>
+                            <span class="amount monthly">1.997</span>
+                            <span class="amount yearly">1.598</span>
+                            <span class="period">/mês</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i>Tudo do Professional</li>
+                            <li><i class="fas fa-check"></i>Usuários ilimitados</li>
+                            <li><i class="fas fa-check"></i>Consultoria especializada</li>
+                            <li><i class="fas fa-check"></i>SLA garantido</li>
+                            <li><i class="fas fa-check"></i>Suporte 24/7</li>
+                            <li><i class="fas fa-check"></i>API completa</li>
+                            <li><i class="fas fa-check"></i>Customizações</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-outline">Falar com Vendas</button>
+                </div>
+            </div>
+
+            <div class="pricing-footer" data-aos="fade-up" data-aos-delay="500">
+                <p>💳 Sem compromisso • ⚡ Cancelamento a qualquer momento • 🔒 Dados 100% seguros</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="demo-content">
+                <div class="demo-text" data-aos="fade-right">
+                    <h2>Veja o LicitaEvolution em Ação</h2>
+                    <p>Agende uma demonstração personalizada e descubra como nossa plataforma pode revolucionar seus resultados em licitações.</p>
+
+                    <div class="demo-benefits">
+                        <div class="demo-benefit">
+                            <i class="fas fa-video"></i>
+                            <span>Demonstração ao vivo - 30 minutos</span>
+                        </div>
+                        <div class="demo-benefit">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Consultoria gratuita com especialista</span>
+                        </div>
+                        <div class="demo-benefit">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Análise do seu cenário atual</span>
+                        </div>
+                        <div class="demo-benefit">
+                            <i class="fas fa-gift"></i>
+                            <span>Proposta comercial personalizada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-form" data-aos="fade-left">
+                    <form id="demoForm" class="form">
+                        <h3>Agendar Demonstração</h3>
+
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Corporativo</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefone">Telefone/WhatsApp</label>
+                            <input type="tel" id="telefone" name="telefone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="empresa">Nome da Empresa</label>
+                            <input type="text" id="empresa" name="empresa" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cargo">Cargo/Função</label>
+                            <input type="text" id="cargo" name="cargo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="porte">Porte da Empresa</label>
+                            <select id="porte" name="porte" required>
+                                <option value="">Selecione...</option>
+                                <option value="mei">MEI</option>
+                                <option value="micro">Microempresa</option>
+                                <option value="pequena">Pequena Empresa</option>
+                                <option value="media">Média Empresa</option>
+                                <option value="grande">Grande Empresa</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="horario">Melhor Horário</label>
+                            <select id="horario" name="horario" required>
+                                <option value="">Selecione...</option>
+                                <option value="manha">Manhã (9h às 12h)</option>
+                                <option value="tarde">Tarde (13h às 17h)</option>
+                                <option value="noite">Noite (18h às 20h)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-calendar-alt"></i>
+                            Agendar Demonstração Grátis
+                        </button>
+
+                        <p class="form-note">
+                            <i class="fas fa-shield-alt"></i>
+                            Seus dados estão protegidos pela LGPD
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>O que Nossos Clientes Dizem</h2>
+                <p>Resultados reais de empresas que transformaram seus negócios</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"Com o LicitaEvolution, nossa taxa de sucesso em licitações aumentou 45%. O Claude é impressionante na análise de editais!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Carlos Mendoza</h4>
+                            <span>CEO, TechSolutions Ltda</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"Economizamos R$ 180.000 por ano só com a análise automatizada de editais. ROI comprovado em 3 meses!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Ana Silva</h4>
+                            <span>Diretora Comercial, InfraBrasil</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"A gestão financeira integrada nos deu controle total sobre custos e margens. Recomendo para qualquer empresa do setor!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Roberto Santos</h4>
+                            <span>CFO, EngenhariaPro</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-right">
+                    <h2>Pronto para Começar?</h2>
+                    <p>Nossa equipe de especialistas está pronta para ajudar você a transformar seus resultados em licitações.</p>
+
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Telefone</h4>
+                                <p>(11) 4000-1234</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>WhatsApp</h4>
+                                <p>(11) 99999-8888</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>contato@licitaevolution.com.br</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Horário</h4>
+                                <p>Segunda a Sexta: 8h às 18h</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form" data-aos="fade-left">
+                    <form id="contactForm" class="form">
+                        <h3>Envie uma Mensagem</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="nome" placeholder="Seu Nome" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Seu Email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" name="empresa" placeholder="Nome da Empresa" required>
+                        </div>
+
+                        <div class="form-group">
+                            <select name="assunto" required>
+                                <option value="">Selecione o Assunto</option>
+                                <option value="demonstracao">Solicitar Demonstração</option>
+                                <option value="comercial">Informações Comerciais</option>
+                                <option value="tecnico">Dúvidas Técnicas</option>
+                                <option value="suporte">Suporte</option>
+                                <option value="parceria">Parceria</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea name="mensagem" rows="5" placeholder="Sua Mensagem" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i>
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-gavel"></i>
+                        <span>LicitaEvolution</span>
+                    </div>
+                    <p>O sistema mais avançado para gestão de licitações públicas no Brasil. Transforme sua empresa com a força da inteligência artificial.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Produto</h4>
+                    <ul>
+                        <li><a href="#funcionalidades">Funcionalidades</a></li>
+                        <li><a href="#diferenciais">IA Claude</a></li>
+                        <li><a href="#precos">Preços</a></li>
+                        <li><a href="#demo">Demonstração</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Imprensa</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Suporte</h4>
+                    <ul>
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Documentação</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                        <li><a href="#">Status do Sistema</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">LGPD</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 LicitaEvolution. Todos os direitos reservados.</p>
+                    <p>Made with ❤️ in Brazil</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

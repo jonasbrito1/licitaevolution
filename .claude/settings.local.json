@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start http://localhost/phpmyadmin)",
+      "Bash(npm run:*)",
+      "Bash(start http://localhost:3000)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

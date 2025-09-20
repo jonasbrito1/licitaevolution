@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LicitaEvolution - Portal de Acesso</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #7c3aed;
+            --accent-color: #f59e0b;
+            --success-color: #059669;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--gray-600);
+            font-size: 1.2rem;
+        }
+
+        .status-section {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success-color);
+        }
+
+        .status-icon.checking {
+            background: var(--accent-color);
+            animation: pulse 2s infinite;
+        }
+
+        .status-icon.error {
+            background: #dc2626;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .access-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gray-100);
+            padding-bottom: 0.5rem;
+        }
+
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .access-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .access-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .card-description {
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card-url {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-family: 'Monaco', 'Menlo', monospace;
+            background: var(--gray-50);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .api-section {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .api-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .api-method {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .api-endpoint {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+            color: var(--gray-600);
+        }
+
+        .test-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .test-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .access-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🚀</div>
+                <div>
+                    <h1 class="title">LicitaEvolution</h1>
+                    <p class="subtitle">Portal de Acesso Local</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status dos Serviços -->
+        <div class="status-section">
+            <h2 class="status-title">
+                📊 Status dos Serviços
+            </h2>
+            <div class="status-grid" id="status-grid">
+                <div class="status-item">
+                    <div class="status-icon checking" id="backend-status"></div>
+                    <span>Backend API (Port 3001)</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon checking" id="frontend-status"></div>
+                    <span>Frontend React (Port 3000)</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon" id="database-status"></div>
+                    <span>PostgreSQL Database</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon" id="redis-status"></div>
+                    <span>Redis Cache</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acesso às Páginas HTML -->
+        <div class="access-section">
+            <h2 class="section-title">🌐 Páginas do Sistema</h2>
+            <div class="access-grid">
+                <div class="access-card" onclick="openPage('components.html')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--primary-color);">🧩</div>
+                        <div class="card-title">Componentes Demo</div>
+                    </div>
+                    <div class="card-description">
+                        Demonstração completa de todos os componentes do sistema, incluindo header, footer e chat LicitAI.
+                    </div>
+                    <div class="card-url">./components.html</div>
+                </div>
+
+                <div class="access-card" onclick="openPage('dashboard-novo.html')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--secondary-color);">📊</div>
+                        <div class="card-title">Dashboard Principal</div>
+                    </div>
+                    <div class="card-description">
+                        Dashboard completo com estatísticas, gráficos e visão geral do sistema de licitações.
+                    </div>
+                    <div class="card-url">./dashboard-novo.html</div>
+                </div>
+
+                <div class="access-card" onclick="openPage('editais-novo.html')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--accent-color);">📋</div>
+                        <div class="card-title">Gestão de Editais</div>
+                    </div>
+                    <div class="card-description">
+                        Interface completa para gestão de editais com filtros avançados e análise de viabilidade.
+                    </div>
+                    <div class="card-url">./editais-novo.html</div>
+                </div>
+
+                <div class="access-card" onclick="openPage('demo-frontend.html')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--success-color);">🧪</div>
+                        <div class="card-title">Demo Frontend</div>
+                    </div>
+                    <div class="card-description">
+                        Página de demonstração e teste das funcionalidades do sistema completo.
+                    </div>
+                    <div class="card-url">./demo-frontend.html</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acesso às APIs -->
+        <div class="access-section">
+            <h2 class="section-title">🔌 APIs Disponíveis</h2>
+            <div class="api-section">
+                <div class="api-grid">
+                    <div class="api-item">
+                        <div class="api-method">GET</div>
+                        <div class="api-endpoint">/health</div>
+                        <button class="test-btn" onclick="testAPI('/health')">Testar</button>
+                    </div>
+                    <div class="api-item">
+                        <div class="api-method">GET</div>
+                        <div class="api-endpoint">/api/health</div>
+                        <button class="test-btn" onclick="testAPI('/api/health')">Testar</button>
+                    </div>
+                    <div class="api-item">
+                        <div class="api-method">GET</div>
+                        <div class="api-endpoint">/api/editais</div>
+                        <button class="test-btn" onclick="testAPI('/api/editais')">Testar</button>
+                    </div>
+                    <div class="api-item">
+                        <div class="api-method">POST</div>
+                        <div class="api-endpoint">/api/claude/analisar-texto</div>
+                        <button class="test-btn" onclick="testClaude()">Testar</button>
+                    </div>
+                    <div class="api-item">
+                        <div class="api-method">POST</div>
+                        <div class="api-endpoint">/api/auth/login</div>
+                        <button class="test-btn" onclick="testLogin()">Testar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acesso aos Serviços Docker -->
+        <div class="access-section">
+            <h2 class="section-title">🐳 Serviços Docker</h2>
+            <div class="access-grid">
+                <div class="access-card" onclick="openURL('http://localhost:5050')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #336791;">🐘</div>
+                        <div class="card-title">pgAdmin</div>
+                    </div>
+                    <div class="card-description">
+                        Interface web para administração do banco PostgreSQL.
+                    </div>
+                    <div class="card-url">http://localhost:5050</div>
+                </div>
+
+                <div class="access-card" onclick="openURL('http://localhost:3000')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #61dafb;">⚛️</div>
+                        <div class="card-title">Frontend React</div>
+                    </div>
+                    <div class="card-description">
+                        Aplicação React em desenvolvimento (se estiver rodando).
+                    </div>
+                    <div class="card-url">http://localhost:3000</div>
+                </div>
+
+                <div class="access-card" onclick="openURL('http://localhost:3001')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #68a063;">🚀</div>
+                        <div class="card-title">Backend API</div>
+                    </div>
+                    <div class="card-description">
+                        API Node.js com todas as funcionalidades do sistema.
+                    </div>
+                    <div class="card-url">http://localhost:3001</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>LicitaEvolution v1.0.0 - Sistema ERP para Gestão de Licitações</p>
+            <p>Todos os serviços rodando localmente</p>
+        </div>
+    </div>
+
+    <script>
+        // Verificar status dos serviços
+        async function checkServices() {
+            try {
+                // Backend
+                const backendResponse = await fetch('http://localhost:3001/health');
+                document.getElementById('backend-status').className = 'status-icon';
+            } catch {
+                document.getElementById('backend-status').className = 'status-icon error';
+            }
+
+            try {
+                // Frontend React
+                const frontendResponse = await fetch('http://localhost:3000');
+                document.getElementById('frontend-status').className = 'status-icon';
+            } catch {
+                document.getElementById('frontend-status').className = 'status-icon error';
+            }
+
+            // Database e Redis são verificados via backend
+            try {
+                const healthResponse = await fetch('http://localhost:3001/api/health');
+                const data = await healthResponse.json();
+
+                if (data.services?.database === 'connected') {
+                    document.getElementById('database-status').className = 'status-icon';
+                } else {
+                    document.getElementById('database-status').className = 'status-icon error';
+                }
+
+                if (data.services?.redis === 'connected') {
+                    document.getElementById('redis-status').className = 'status-icon';
+                } else {
+                    document.getElementById('redis-status').className = 'status-icon error';
+                }
+            } catch {
+                document.getElementById('database-status').className = 'status-icon error';
+                document.getElementById('redis-status').className = 'status-icon error';
+            }
+        }
+
+        // Abrir páginas
+        function openPage(page) {
+            window.open(page, '_blank');
+        }
+
+        function openURL(url) {
+            window.open(url, '_blank');
+        }
+
+        // Testar APIs
+        async function testAPI(endpoint) {
+            try {
+                const response = await fetch(`http://localhost:3001${endpoint}`);
+                const data = await response.json();
+                alert(`API Response:\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                alert(`Erro: ${error.message}`);
+            }
+        }
+
+        async function testClaude() {
+            try {
+                const response = await fetch('http://localhost:3001/api/claude/analisar-texto', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        texto: 'Olá LicitAI, como você pode me ajudar?',
+                        contexto: 'chat_assistente'
+                    })
+                });
+                const data = await response.json();
+                alert(`LicitAI Response:\n${data.resposta}`);
+            } catch (error) {
+                alert(`Erro: ${error.message}`);
+            }
+        }
+
+        async function testLogin() {
+            try {
+                const response = await fetch('http://localhost:3001/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'admin@demo.com',
+                        password: 'demo123'
+                    })
+                });
+                const data = await response.json();
+                alert(`Login Response:\n${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                alert(`Erro: ${error.message}`);
+            }
+        }
+
+        // Inicializar verificações
+        window.addEventListener('load', checkServices);
+
+        // Verificar a cada 30 segundos
+        setInterval(checkServices, 30000);
+    </script>
+</body>
+</html>
