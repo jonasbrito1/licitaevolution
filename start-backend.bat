@@ -5,7 +5,7 @@ echo ============================================
 echo.
 
 echo Verificando se os servicos Docker estao rodando...
-docker ps | findstr licitaevolution_db > nul
+docker ps | findstr licitaevolution_mysql > nul
 if %errorlevel% neq 0 (
     echo.
     echo AVISO: Servicos Docker nao encontrados!

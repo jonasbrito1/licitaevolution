@@ -41,20 +41,20 @@ Após iniciar os serviços:
 |---------|-----|-----------|
 | **Frontend** | http://localhost:3000 | Interface principal do sistema |
 | **Backend API** | http://localhost:3001 | API REST do backend |
-| **PgAdmin** | http://localhost:5050 | Interface de administração do PostgreSQL |
-| **PostgreSQL** | localhost:5432 | Banco de dados |
+| **phpMyAdmin** | http://localhost:8080 | Interface de administração do MySQL |
+| **MySQL** | localhost:3306 | Banco de dados |
 | **Redis** | localhost:6379 | Cache e filas |
 
 ### Credenciais Padrão
 
-**PgAdmin:**
-- Email: `admin@admin.com`
+**phpMyAdmin:**
+- Usuário: `admin`
 - Senha: `admin123`
 
-**PostgreSQL:**
-- Host: `localhost` (ou `postgres` dentro do Docker)
-- Porta: `5432`
-- Database: `erp_licitacao`
+**MySQL:**
+- Host: `localhost` (ou `mysql` dentro do Docker)
+- Porta: `3306`
+- Database: `licitaevolution`
 - Usuário: `admin`
 - Senha: `admin123`
 
@@ -131,14 +131,14 @@ Se alguma porta estiver em uso, você pode:
 ### Problema: Banco de dados não conecta
 
 ```bash
-# Verificar se o PostgreSQL está rodando
-docker ps | grep postgres
+# Verificar se o MySQL está rodando
+docker ps | grep mysql
 
 # Verificar logs do banco
-docker logs erp_licitacao_db
+docker logs licitaevolution_mysql
 
 # Reiniciar apenas o banco
-docker restart erp_licitacao_db
+docker restart licitaevolution_mysql
 ```
 
 ### Problema: Frontend não carrega
@@ -170,7 +170,7 @@ docker exec -it erp_backend sh
 docker exec -it erp_frontend sh
 
 # Banco de dados
-docker exec -it erp_licitacao_db psql -U admin -d erp_licitacao
+docker exec -it licitaevolution_mysql mysql -u admin -padmin123 licitaevolution
 ```
 
 ### Logs específicos
@@ -183,7 +183,7 @@ docker logs -f erp_backend
 docker logs -f erp_frontend
 
 # Banco de dados apenas
-docker logs -f erp_licitacao_db
+docker logs -f licitaevolution_mysql
 ```
 
 ## 📁 Estrutura dos Serviços

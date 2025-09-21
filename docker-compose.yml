@@ -1,23 +1,28 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: erp_licitacao_db
+  mysql:
+    image: mysql:8.0
+    container_name: licitaevolution_mysql
     environment:
-      POSTGRES_DB: erp_licitacao
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: licitaevolution
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+      - ./database/init-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/mysql.cnf:/etc/mysql/conf.d/custom.cnf
     networks:
       - erp_network
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password --innodb-buffer-pool-size=256M --max-connections=100
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d erp_licitacao"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -53,9 +58,9 @@ services:
       - ./logs:/app/logs
     environment:
       - NODE_ENV=development
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=erp_licitacao
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=licitaevolution
       - DB_USER=admin
       - DB_PASSWORD=admin123
       - REDIS_HOST=redis
@@ -70,7 +75,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD:-password}
       - FRONTEND_URL=http://localhost:3000
     depends_on:
-      postgres:
+      mysql:
         condition: service_healthy
       redis:
         condition: service_healthy
@@ -104,20 +109,20 @@ services:
     tty: true
     command: npm start
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: erp_pgadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: licitaevolution_phpmyadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: admin
+      PMA_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root123
+      UPLOAD_LIMIT: 100M
     ports:
-      - "5050:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - "8080:80"
     depends_on:
-      postgres:
+      mysql:
         condition: service_healthy
     networks:
       - erp_network
@@ -148,9 +153,7 @@ networks:
         - subnet: 172.25.0.0/16
 
 volumes:
-  postgres_data:
+  mysql_data:
     driver: local
   redis_data:
-    driver: local
-  pgadmin_data:
     driver: local

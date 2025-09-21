@@ -32,14 +32,14 @@ echo ============================================
 echo  Servicos Docker iniciados com sucesso!
 echo ============================================
 echo.
-echo Acesse PgAdmin em: http://localhost:5050
-echo   Email: admin@admin.com
+echo Acesse phpMyAdmin em: http://localhost:8080
+echo   Usuario: admin
 echo   Senha: admin123
 echo.
-echo Banco PostgreSQL:
+echo Banco MySQL:
 echo   Host: localhost
-echo   Porta: 5432
-echo   Database: erp_licitacao
+echo   Porta: 3306
+echo   Database: licitaevolution
 echo   Usuario: admin
 echo   Senha: admin123
 echo.

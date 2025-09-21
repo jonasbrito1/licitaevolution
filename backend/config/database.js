@@ -4,11 +4,11 @@ const logger = require('../utils/logger');
 // Configuração da conexão com MySQL
 const sequelize = new Sequelize({
   dialect: 'mysql',
-  host: process.env.MYSQL_HOST || 'localhost',
-  port: process.env.MYSQL_PORT || 3306,
-  database: process.env.MYSQL_DATABASE || 'licitaevolution',
-  username: process.env.MYSQL_USER || 'root',
-  password: process.env.MYSQL_PASSWORD || 'root123',
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 3306,
+  database: process.env.DB_NAME || 'licitaevolution',
+  username: process.env.DB_USER || 'admin',
+  password: process.env.DB_PASSWORD || 'admin123',
 
   // Pool de conexões
   pool: {
@@ -165,15 +165,15 @@ async function backupDatabase() {
     const backupFile = path.join(backupDir, `backup_${timestamp}.sql`);
 
     const mysqldump = spawn('mysqldump', [
-      '-h', process.env.MYSQL_HOST || 'localhost',
-      '-P', process.env.MYSQL_PORT || '3306',
-      '-u', process.env.MYSQL_USER || 'root',
-      `-p${process.env.MYSQL_PASSWORD || 'root123'}`,
+      '-h', process.env.DB_HOST || 'localhost',
+      '-P', process.env.DB_PORT || '3306',
+      '-u', process.env.DB_USER || 'admin',
+      `-p${process.env.DB_PASSWORD || 'admin123'}`,
       '--routines',
       '--triggers',
       '--single-transaction',
       '--result-file=' + backupFile,
-      process.env.MYSQL_DATABASE || 'licitaevolution'
+      process.env.DB_NAME || 'licitaevolution'
     ]);
 
     return new Promise((resolve, reject) => {
@@ -208,11 +208,11 @@ async function restoreDatabase(backupFile) {
     }
 
     const mysql = spawn('mysql', [
-      '-h', process.env.MYSQL_HOST || 'localhost',
-      '-P', process.env.MYSQL_PORT || '3306',
-      '-u', process.env.MYSQL_USER || 'root',
-      `-p${process.env.MYSQL_PASSWORD || 'root123'}`,
-      process.env.MYSQL_DATABASE || 'licitaevolution'
+      '-h', process.env.DB_HOST || 'localhost',
+      '-P', process.env.DB_PORT || '3306',
+      '-u', process.env.DB_USER || 'admin',
+      `-p${process.env.DB_PASSWORD || 'admin123'}`,
+      process.env.DB_NAME || 'licitaevolution'
     ]);
 
     // Pipe o arquivo SQL para o mysql

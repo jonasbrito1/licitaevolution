@@ -1,21 +1,26 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: licitaevolution_db
+  mysql:
+    image: mysql:8.0
+    container_name: licitaevolution_mysql
     environment:
-      POSTGRES_DB: erp_licitacao
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: licitaevolution
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+      - ./database/init-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/mysql.cnf:/etc/mysql/conf.d/custom.cnf
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password --innodb-buffer-pool-size=256M --max-connections=100
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d erp_licitacao"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -35,27 +40,25 @@ services:
       timeout: 10s
       retries: 3
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: licitaevolution_pgadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: licitaevolution_phpmyadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: admin
+      PMA_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root123
+      UPLOAD_LIMIT: 100M
     ports:
-      - "5050:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - "8080:80"
     depends_on:
-      postgres:
+      mysql:
         condition: service_healthy
     restart: unless-stopped
 
 volumes:
-  postgres_data:
+  mysql_data:
     driver: local
   redis_data:
-    driver: local
-  pgadmin_data:
     driver: local
