@@ -14,37 +14,27 @@ RUN apk add --no-cache \
     fontconfig-dev \
     freetype-dev \
     ghostscript \
-    poppler-utils
+    poppler-utils \
+    curl
 
 # Criar diretório de trabalho
 WORKDIR /app
 
-# Criar usuário não-root
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
 # Copiar package.json
 COPY package*.json ./
 
-# Instalar dependências
-RUN npm ci --only=production && npm cache clean --force
-
-# Copiar código fonte
-COPY . .
+# Instalar dependências (incluindo dev para desenvolvimento)
+RUN npm ci && npm cache clean --force
 
 # Criar diretórios necessários
 RUN mkdir -p uploads logs backend/temp
-
-# Definir permissões
-RUN chown -R nextjs:nodejs /app
-USER nextjs
 
 # Expor porta
 EXPOSE 3001
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:3001/api/health || exit 1
 
-# Comando de inicialização
-CMD ["npm", "start"]
+# Comando de inicialização para desenvolvimento
+CMD ["npm", "run", "dev"]
